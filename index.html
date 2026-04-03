@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Plant Pocket</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1e40af" />
+    <link rel="stylesheet" href="/src/style.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <h1 id="headerTitle">Plant Pocket</h1>
+    </header>
+
+    <main class="app-content">
+      <!-- Tab 1: 규격 (Specs) -->
+      <section id="tab-specs" class="tab-pane active">
+        <h2>📏 배관/플랜지 규격 조회</h2>
+        
+        <div class="card">
+          <h3>배관 (Piping)</h3>
+          <div class="form-group row">
+            <select id="pipeNps" class="form-control">
+              <option value="" disabled selected>NPS (인치)</option>
+              <option value="1/2">1/2"</option>
+              <option value="3/4">3/4"</option>
+              <option value="1">1"</option>
+              <option value="1.5">1.5"</option>
+              <option value="2">2"</option>
+              <option value="3">3"</option>
+              <option value="4">4"</option>
+              <option value="6">6"</option>
+              <option value="8">8"</option>
+              <option value="10">10"</option>
+              <option value="12">12"</option>
+              <option value="16">16"</option>
+              <option value="20">20"</option>
+              <option value="24">24"</option>
+            </select>
+            <select id="pipeSch" class="form-control">
+              <option value="" disabled selected>Schedule</option>
+              <option value="10S">10S</option>
+              <option value="40">40 (STD)</option>
+              <option value="80">80 (XS)</option>
+              <option value="160">160</option>
+            </select>
+          </div>
+          <div class="result-box" id="pipeResult">선택해주세요.</div>
+          <button class="btn btn-secondary btn-copy" id="pipeCopyBtn" style="display:none;">📋 결과 복사</button>
+        </div>
+
+        <div class="card" style="margin-top: 1rem;">
+          <h3>플랜지 (Flange)</h3>
+          <div class="form-group row">
+            <select id="flangeClass" class="form-control">
+              <option value="" disabled selected>Class</option>
+              <option value="150">150#</option>
+              <option value="300">300#</option>
+            </select>
+            <select id="flangeNps" class="form-control">
+              <option value="" disabled selected>NPS (인치)</option>
+              <option value="1/2">1/2"</option>
+              <option value="1">1"</option>
+              <option value="2">2"</option>
+              <option value="3">3"</option>
+              <option value="4">4"</option>
+              <option value="6">6"</option>
+              <option value="8">8"</option>
+              <option value="10">10"</option>
+              <option value="12">12"</option>
+              <option value="16">16"</option>
+              <option value="20">20"</option>
+              <option value="24">24"</option>
+            </select>
+          </div>
+          <div class="result-box" id="flangeResult">선택해주세요.</div>
+          <button class="btn btn-secondary btn-copy" id="flangeCopyBtn" style="display:none;">📋 결과 복사</button>
+        </div>
+      </section>
+
+      <!-- Tab 2: 펀치 (Punch Snap) -->
+      <section id="tab-punch" class="tab-pane">
+        <h2>📝 현장 결함(Punch) 기록</h2>
+        
+        <div class="card" style="margin-bottom: 1rem;">
+          <div class="form-group">
+            <label for="punchPhotoInput" class="btn btn-secondary" style="display:block; text-align:center;">📷 사진 촬영 / 앨범 선택</label>
+            <input type="file" id="punchPhotoInput" accept="image/*" capture="environment" style="display: none;">
+          </div>
+          <div id="photoPreviewContainer" style="display:none; text-align:center; margin-bottom: 1rem;">
+            <img id="photoPreview" style="max-width:100%; max-height:200px; border-radius:8px;" />
+          </div>
+          <div class="form-group">
+            <input type="text" id="punchEqNo" class="form-control" placeholder="장치 번호 (예: V-101)" />
+          </div>
+          <div class="form-group">
+            <textarea id="punchDesc" class="form-control" placeholder="결함 내용 (예: 보온재 파손, 드레인 미세 릭...)" rows="3" style="width:100%; resize:none;"></textarea>
+          </div>
+          <button class="btn" style="background-color: var(--primary); color: white;" id="punchSaveBtn">💾 내 폰에 저장</button>
+        </div>
+
+        <h3>저장된 리스트</h3>
+        <div id="punchListContainer">
+          <p style="color:var(--text-muted); text-align:center;">저장된 기록이 없습니다.</p>
+        </div>
+      </section>
+
+      <!-- Tab 3: 툴킷 (Toolkit) -->
+      <section id="tab-toolkit" class="tab-pane">
+        <h2>🔄 필수 단위 변환 & 가이드</h2>
+        
+        <div class="card" style="margin-bottom: 1rem;">
+          <h3>🌡 압력 / 온도 변환기</h3>
+          
+          <div style="margin-bottom: 1rem;">
+            <label style="font-size:0.85rem; color:var(--text-muted);">온도 (Temperature)</label>
+            <div class="form-group row" style="align-items:center;">
+              <input type="number" id="tempC" class="form-control" placeholder="℃" />
+              <span>=</span>
+              <input type="number" id="tempF" class="form-control" placeholder="℉" />
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size:0.85rem; color:var(--text-muted);">압력 (Pressure) - 기준 입력 시 자동 계산</label>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <div class="row" style="align-items:center;">
+                <input type="number" id="pressKg" class="form-control" placeholder="kg/cm²" />
+                <span style="min-width:40px;">kgf</span>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <div class="row" style="align-items:center;">
+                <input type="number" id="pressPsi" class="form-control" placeholder="psi" />
+                <span style="min-width:40px;">psi</span>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <div class="row" style="align-items:center;">
+                <input type="number" id="pressBar" class="form-control" placeholder="bar" />
+                <span style="min-width:40px;">bar</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row" style="align-items:center;">
+                <input type="number" id="pressMpa" class="form-control" placeholder="MPa" />
+                <span style="min-width:40px;">MPa</span>
+              </div>
+            </div>
+            <button class="btn btn-secondary" id="clearConverter" style="margin-top:0.5rem;">초기화</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>⚙️ 플랜지 볼팅 (Star Pattern) 순서</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">대각선 교차 방식(Criss-Cross)을 권장합니다.</p>
+          <div class="form-group row">
+            <select id="boltCount" class="form-control">
+              <option value="4">4 Bolts</option>
+              <option value="8" selected>8 Bolts</option>
+              <option value="12">12 Bolts</option>
+              <option value="16">16 Bolts</option>
+              <option value="20">20 Bolts</option>
+              <option value="24">24 Bolts</option>
+            </select>
+          </div>
+          <div class="result-box" id="boltingResult" style="font-weight:bold; letter-spacing:1px;">
+            1 - 5 - 3 - 7 - 2 - 6 - 4 - 8
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-target="tab-specs">
+        <span class="nav-icon">📏</span>
+        <span class="nav-label">규격</span>
+      </button>
+      <button class="nav-btn" data-target="tab-punch">
+        <span class="nav-icon">📝</span>
+        <span class="nav-label">펀치</span>
+      </button>
+      <button class="nav-btn" data-target="tab-toolkit">
+        <span class="nav-icon">🧰</span>
+        <span class="nav-label">툴킷</span>
+      </button>
+    </nav>
+
+    <script type="module" src="/src/main.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+      }
+    </script>
+  </body>
+</html>
