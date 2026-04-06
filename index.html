@@ -35,9 +35,16 @@
               <option value="8">8"</option>
               <option value="10">10"</option>
               <option value="12">12"</option>
+              <option value="14">14"</option>
               <option value="16">16"</option>
+              <option value="18">18"</option>
               <option value="20">20"</option>
               <option value="24">24"</option>
+              <option value="26">26"</option>
+              <option value="28">28"</option>
+              <option value="30">30"</option>
+              <option value="32">32"</option>
+              <option value="36">36"</option>
             </select>
             <select id="pipeSch" class="form-control">
               <option value="" disabled selected>Schedule</option>
@@ -45,6 +52,7 @@
               <option value="40">40 (STD)</option>
               <option value="80">80 (XS)</option>
               <option value="160">160</option>
+              <option value="XXS">XXS</option>
             </select>
           </div>
           <div class="result-box" id="pipeResult">선택해주세요.</div>
@@ -58,6 +66,8 @@
               <option value="" disabled selected>Class</option>
               <option value="150">150#</option>
               <option value="300">300#</option>
+              <option value="600">600#</option>
+              <option value="900">900#</option>
             </select>
             <select id="flangeNps" class="form-control">
               <option value="" disabled selected>NPS (인치)</option>
@@ -166,7 +176,12 @@
               <option value="24">24 Bolts</option>
             </select>
           </div>
-          <div class="result-box" id="boltingResult" style="font-weight:bold; letter-spacing:1px;">
+          
+          <div id="boltingSvgContainer" style="margin-top: 1rem; text-align: center;">
+            <!-- SVG will be injected here -->
+          </div>
+
+          <div class="result-box" id="boltingResult" style="font-weight:bold; letter-spacing:1px; margin-top: 1rem; font-size: 0.85rem;">
             1 - 5 - 3 - 7 - 2 - 6 - 4 - 8
           </div>
         </div>
