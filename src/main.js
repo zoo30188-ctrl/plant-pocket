@@ -3,6 +3,7 @@ import { initSpecs } from './features/specs.js';
 import { initPunch } from './features/punch.js';
 import { initToolkit } from './features/toolkit.js';
 import { initChangelog } from './features/changelog.js';
+import { initManual } from './features/manual.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const navBtns = document.querySelectorAll('.nav-btn');
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Init features
+  initManual();
   initChangelog();
   initSpecs();
   initPunch();
