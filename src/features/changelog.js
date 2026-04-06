@@ -44,8 +44,16 @@ export function initChangelog() {
   }
 
   // Close Logic
-  closeBtn.addEventListener('click', () => {
+  const handleClose = () => {
     localStorage.setItem('plantPocketVersion', CURRENT_VERSION);
     closeModal();
+  };
+
+  closeBtn.addEventListener('click', handleClose);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      handleClose();
+    }
   });
 }

@@ -27,10 +27,18 @@ export function initManual() {
   }
 
   // Close logic
+  const handleClose = () => {
+    localStorage.setItem('plantPocketManualSeen', 'true');
+    closeModal();
+  };
+
   if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      localStorage.setItem('plantPocketManualSeen', 'true');
-      closeModal();
-    });
+    closeBtn.addEventListener('click', handleClose);
   }
+
+  manualModal.addEventListener('click', (e) => {
+    if (e.target === manualModal) {
+      handleClose();
+    }
+  });
 }
