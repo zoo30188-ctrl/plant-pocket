@@ -11,6 +11,16 @@ export function initChangelog() {
     versionBadge.innerText = CURRENT_VERSION;
   }
 
+  const openModal = () => {
+    modal.classList.add('show');
+    document.body.classList.add('modal-open');
+  };
+
+  const closeModal = () => {
+    modal.classList.remove('show');
+    document.body.classList.remove('modal-open');
+  };
+
   // Check LocalStorage
   const lastViewedVersion = localStorage.getItem('plantPocketVersion');
 
@@ -29,13 +39,13 @@ export function initChangelog() {
       body.innerHTML = contentHtml;
       
       // Show modal
-      modal.classList.add('show');
+      openModal();
     }
   }
 
   // Close Logic
   closeBtn.addEventListener('click', () => {
     localStorage.setItem('plantPocketVersion', CURRENT_VERSION);
-    modal.classList.remove('show');
+    closeModal();
   });
 }
