@@ -5,7 +5,6 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Plant Pocket</title>
-    <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#1e40af" />
     <link rel="stylesheet" href="/src/style.css">
   </head>
@@ -261,11 +260,6 @@
           <button id="closeManualBtn" class="btn" style="background-color: #047857; color: white;">앱 시작하기</button>
         </div>
       </div>
-    </div>
-
-    <script type="module" src="/src/main.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js');
       }
     </script>
