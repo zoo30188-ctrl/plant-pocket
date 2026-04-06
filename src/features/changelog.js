@@ -21,26 +21,47 @@ export function initChangelog() {
     document.body.classList.remove('modal-open');
   };
 
-  // Check LocalStorage
-  const lastViewedVersion = localStorage.getItem('plantPocketVersion');
+  const renderAllLogs = () => {
+    const html = CHANGELOGS.map(log => `
+      <div style="margin-bottom: 1.5rem;">
+        <div class="version-title">${log.title} <span class="version-date">${log.date}</span></div>
+        <ul style="margin-bottom: 0;">
+          ${log.changes.map(ch => `<li>${ch}</li>`).join('')}
+        </ul>
+      </div>
+    `).join('');
+    body.innerHTML = html;
+  };
 
-  if (lastViewedVersion !== CURRENT_VERSION) {
-    // Determine which logs to show (only show current version, or new ones)
-    // For simplicity, we just show the most recent changelog object that matches CURRENT_VERSION
+  const renderCurrentLog = () => {
     const currentLog = CHANGELOGS.find(log => log.version === CURRENT_VERSION);
-
     if (currentLog) {
-      let contentHtml = `
+      body.innerHTML = `
         <div class="version-title">${currentLog.title} <span class="version-date">${currentLog.date}</span></div>
         <ul>
           ${currentLog.changes.map(ch => `<li>${ch}</li>`).join('')}
         </ul>
       `;
-      body.innerHTML = contentHtml;
-      
-      // Show modal
+      return true;
+    }
+    return false;
+  };
+
+  // Check LocalStorage
+  const lastViewedVersion = localStorage.getItem('plantPocketVersion');
+
+  if (lastViewedVersion !== CURRENT_VERSION) {
+    if (renderCurrentLog()) {
       openModal();
     }
+  }
+
+  // Click version badge to view all logs
+  if (versionBadge) {
+    versionBadge.addEventListener('click', () => {
+      renderAllLogs();
+      openModal();
+    });
   }
 
   // Close Logic

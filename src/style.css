@@ -184,6 +184,7 @@ body.modal-open {
   padding: 0.2rem 0.5rem;
   border-radius: 12px;
   margin-left: 0.5rem;
+  cursor: pointer;
   vertical-align: middle;
 }
 
