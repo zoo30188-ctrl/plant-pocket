@@ -1,4 +1,4 @@
-import { savePunch, getPunches, deletePunch } from '../utils/db.js';
+import { savePunch, getPunches, deletePunch, updatePunch } from '../utils/db.js';
 
 export function initPunch() {
   const photoInput = document.getElementById('punchPhotoInput');
@@ -16,6 +16,7 @@ export function initPunch() {
     ctx = canvas.getContext('2d');
   }
 
+  let editingId = null; // Store ID when in edit mode
   let baseImageObj = null; // Store original resized image to allow clear
   let isImageLoaded = false;
   let isDrawing = false;
@@ -155,13 +156,24 @@ export function initPunch() {
       eqNo: eqNo || 'No Eq No.',
       desc: desc || '',
       image: finalImageBase64,
+      originalImage: baseImageObj ? baseImageObj.src : null,
       date: new Date().toISOString()
     };
 
+    if (editingId !== null) {
+      punch.id = editingId;
+    }
+
     saveBtn.innerText = "저장 중...";
     try {
-      await savePunch(punch);
+      if (editingId !== null) {
+        await updatePunch(punch);
+      } else {
+        await savePunch(punch);
+      }
+      
       // Reset form
+      editingId = null;
       eqNoInput.value = '';
       descInput.value = '';
       isImageLoaded = false;
@@ -258,13 +270,59 @@ export function initPunch() {
           <p style="margin-bottom: ${p.image ? '1rem' : '0'}; white-space:pre-wrap;">${escapeHTML(p.desc)}</p>
           ${p.image ? `<img src="${p.image}" style="max-width:100%; border-radius:4px; margin-bottom:1rem;" />` : ''}
           <div style="display:flex; gap:0.5rem;">
-            <button class="btn btn-secondary btn-copy-punch" data-text="[${escapeHTML(p.eqNo)}] ${escapeHTML(p.desc)}">📋 텍스트 복사</button>
-            <button class="btn btn-secondary btn-delete-punch" data-id="${p.id}" style="color:red; flex:0.4;">삭제</button>
+            <button class="btn btn-secondary btn-copy-punch" data-text="[${escapeHTML(p.eqNo)}] ${escapeHTML(p.desc)}">📋 복사</button>
+            <button class="btn btn-secondary btn-edit-punch" data-id="${p.id}" style="color:#0284c7; flex:0.6;">✏️ 수정</button>
+            <button class="btn btn-secondary btn-delete-punch" data-id="${p.id}" style="color:red; flex:0.6;">삭제</button>
           </div>
         </div>
       `).join('');
 
       // Add events
+      document.querySelectorAll('.btn-edit-punch').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const id = Number(e.target.dataset.id);
+          const punchesList = await getPunches();
+          const p = punchesList.find(x => x.id === id);
+          if (!p) return;
+
+          editingId = p.id;
+          eqNoInput.value = p.eqNo;
+          descInput.value = p.desc;
+          saveBtn.innerText = "💾 수정 내용 덮어쓰기";
+          
+          document.getElementById('tab-punch').scrollIntoView({ behavior: 'smooth' });
+
+          if (p.originalImage || p.image) {
+            const srcToLoad = p.originalImage || p.image;
+            if (!p.originalImage) {
+              alert('알림: 구버전 데이터는 쌩얼 원본 사진이 저장되지 않아 캔버스 마킹 초기화(복구)가 불가능합니다.');
+            }
+
+            const img = new Image();
+            img.onload = () => {
+              canvas.width = img.width;
+              canvas.height = img.height;
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              
+              const drawnImg = new Image();
+              drawnImg.onload = () => {
+                ctx.drawImage(drawnImg, 0, 0, canvas.width, canvas.height);
+                baseImageObj = img;
+                isImageLoaded = true;
+                previewContainer.style.display = 'block';
+              };
+              drawnImg.src = p.image || p.originalImage;
+            };
+            img.src = srcToLoad;
+          } else {
+            isImageLoaded = false;
+            baseImageObj = null;
+            previewContainer.style.display = 'none';
+            if(ctx) ctx.clearRect(0,0,canvas.width,canvas.height);
+          }
+        });
+      });
+
       document.querySelectorAll('.btn-delete-punch').forEach(btn => {
         btn.addEventListener('click', async (e) => {
           if(confirm('삭제하시겠습니까?')) {

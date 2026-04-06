@@ -59,3 +59,14 @@ export const deletePunch = async (id) => {
     req.onerror = () => reject(req.error);
   });
 };
+
+export const updatePunch = async (punch) => {
+  const database = await initDB();
+  return new Promise((resolve, reject) => {
+    const tx = database.transaction(STORE_NAME, 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    const req = store.put(punch); // put will overwrite if punch.id exists
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+};

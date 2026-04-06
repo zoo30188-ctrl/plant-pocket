@@ -2,9 +2,17 @@
  * Plant Pocket Patch Notes & Version History
  */
 
-export const CURRENT_VERSION = "v1.2.0";
+export const CURRENT_VERSION = "v1.2.1";
 
 export const CHANGELOGS = [
+  {
+    version: "v1.2.1",
+    date: "2026-04-06",
+    title: "✏️ 펀치 리스트 수정(Edit) 모드 추가",
+    changes: [
+      "[펀치] 한 번 저장한 펀치 리스트의 내용 및 마킹(빨간 선)을 언제든 다시 지우고 재수정할 수 있는 덮어쓰기 기능 추가"
+    ]
+  },
   {
     version: "v1.2.0",
     date: "2026-04-06",
