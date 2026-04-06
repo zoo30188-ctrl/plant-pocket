@@ -55,7 +55,6 @@ export function initToolkit() {
 
   // Bolting Sequence & SVG Renderer
   const boltCount = document.getElementById('boltCount');
-  const boltingResult = document.getElementById('boltingResult');
   const svgContainer = document.getElementById('boltingSvgContainer');
 
   const sequences = {
@@ -124,10 +123,8 @@ export function initToolkit() {
     const count = boltCount.value;
     const seqStr = sequences[count];
     if (seqStr) {
-      boltingResult.innerText = seqStr;
       svgContainer.innerHTML = drawBoltingSVG(Number(count), seqStr);
     } else {
-      boltingResult.innerText = "패턴 정보 없음";
       svgContainer.innerHTML = '';
     }
   };
