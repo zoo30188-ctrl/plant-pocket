@@ -169,3 +169,87 @@ body {
 .btn-secondary:active {
   background-color: #d1d5db;
 }
+/* Version Badge */
+.version-badge {
+  font-size: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal-overlay.show {
+  display: flex;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background: var(--surface);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 1.25rem;
+  background-color: var(--primary);
+  color: white;
+}
+
+.modal-header h2 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.modal-body {
+  padding: 1.25rem;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.modal-body ul {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.modal-body ul li {
+  margin-bottom: 0.5rem;
+}
+
+.version-title {
+  color: var(--primary);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+}
+
+.version-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+  font-weight: normal;
+}
+
+.modal-footer {
+  padding: 1.25rem;
+  border-top: 1px solid var(--border);
+}

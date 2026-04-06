@@ -11,7 +11,7 @@
   </head>
   <body>
     <header class="app-header">
-      <h1 id="headerTitle">Plant Pocket</h1>
+      <h1 id="headerTitle">Plant Pocket <span id="versionBadge" class="version-badge">v1.1.0</span></h1>
     </header>
 
     <main class="app-content">
@@ -202,6 +202,21 @@
         <span class="nav-label">툴킷</span>
       </button>
     </nav>
+
+    <!-- Changelog Modal -->
+    <div id="changelogModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="changelogTitle">새로운 기능이 업데이트 되었습니다! 🎉</h2>
+        </div>
+        <div class="modal-body" id="changelogBody">
+          <!-- Dynamically filled -->
+        </div>
+        <div class="modal-footer">
+          <button id="closeChangelogBtn" class="btn" style="background-color: var(--primary); color: white;">확인했습니다</button>
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="/src/main.js"></script>
     <script>
