@@ -16,7 +16,7 @@
 
     <main class="app-content">
       <!-- Tab 1: 규격 (Specs) -->
-      <section id="tab-specs" class="tab-pane active">
+      <section id="tab-specs" class="tab-pane">
         <h2>📏 배관/플랜지 규격 조회</h2>
         
         <div class="card">
@@ -91,7 +91,7 @@
       </section>
 
       <!-- Tab 2: 펀치 (Punch Snap) -->
-      <section id="tab-punch" class="tab-pane">
+      <section id="tab-punch" class="tab-pane active">
         <h2>📝 현장 결함(Punch) 기록</h2>
         <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem; line-height: 1.4;">
           💡 <strong>안내:</strong> 여기서 찍은 사진은 휴대폰 기본 앨범(갤러리)에 자동 저장되지 않고 앱 내부에 단독 보관됩니다. 앨범에 저장하시려면 사진을 <strong>꾹 눌러서 저장(다운로드)</strong> 해주세요.
@@ -197,13 +197,13 @@
     </main>
 
     <nav class="bottom-nav">
-      <button class="nav-btn active" data-target="tab-specs">
-        <span class="nav-icon">📏</span>
-        <span class="nav-label">규격</span>
-      </button>
-      <button class="nav-btn" data-target="tab-punch">
+      <button class="nav-btn active" data-target="tab-punch">
         <span class="nav-icon">📝</span>
         <span class="nav-label">펀치</span>
+      </button>
+      <button class="nav-btn" data-target="tab-specs">
+        <span class="nav-icon">📏</span>
+        <span class="nav-label">규격</span>
       </button>
       <button class="nav-btn" data-target="tab-toolkit">
         <span class="nav-icon">🧰</span>
