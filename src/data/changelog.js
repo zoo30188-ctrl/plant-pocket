@@ -2,9 +2,17 @@
  * Plant Pocket Patch Notes & Version History
  */
 
-export const CURRENT_VERSION = "v1.1.1";
+export const CURRENT_VERSION = "v1.1.2";
 
 export const CHANGELOGS = [
+  {
+    version: "v1.1.2",
+    date: "2026-04-06",
+    title: "🔧 긴급 핫픽스 (Hotfix)",
+    changes: [
+      "초기화 스크립트 연결 누락으로 인한 앱 터치 먹통 현상 긴급 롤백 처리"
+    ]
+  },
   {
     version: "v1.1.1",
     date: "2026-04-06",
