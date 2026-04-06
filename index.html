@@ -112,17 +112,17 @@
             </div>
           </div>
           <div class="form-group">
-            <input type="text" id="punchEqNo" class="form-control" placeholder="장치 번호 (예: V-101)" />
+            <input type="text" id="punchEqNo" class="form-control" placeholder="장치 Item No. (예: C-V7001)" />
           </div>
           <div class="form-group">
-            <textarea id="punchDesc" class="form-control" placeholder="결함 내용 (예: 보온재 파손, 드레인 미세 릭...)" rows="3" style="width:100%; resize:none;"></textarea>
+            <textarea id="punchDesc" class="form-control" placeholder="상세 내용 (예: 보온재 파손, tubesheet 부식 등)" rows="3" style="width:100%; resize:none;"></textarea>
           </div>
           <button class="btn" style="background-color: var(--primary); color: white;" id="punchSaveBtn">💾 내 폰에 저장</button>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 1.5rem; margin-bottom: 0.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; margin-bottom: 0.5rem;">
           <h3 style="margin: 0;">저장된 리스트</h3>
-          <button class="btn" id="exportHtmlBtn" style="background-color:#0f172a; color:white; padding:0.4rem 0.8rem; font-size:0.85rem;">📄 리포트 내보내기</button>
+          <button class="btn" id="exportHtmlBtn" style="background-color:#0f172a; color:white; padding:0.25rem 0.6rem; font-size:0.8rem; line-height: 1.2;">📄 리포트 내보내기</button>
         </div>
         <div id="punchListContainer">
           <p style="color:var(--text-muted); text-align:center;">저장된 기록이 없습니다.</p>
