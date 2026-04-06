@@ -2,9 +2,18 @@
  * Plant Pocket Patch Notes & Version History
  */
 
-export const CURRENT_VERSION = "v1.1.0";
+export const CURRENT_VERSION = "v1.1.1";
 
 export const CHANGELOGS = [
+  {
+    version: "v1.1.1",
+    date: "2026-04-06",
+    title: "🔧 UI 텍스트 및 PWA 최적화 (Hotfix)",
+    changes: [
+      "펀치(Punch) 안내 문구 간소화 및 카메라/앨범 다중 선택 메뉴 표시 오류 수정",
+      "비행기 모드 환경에서 앱 최초 구동 불가 버그(PWA 캐싱) 해결"
+    ]
+  },
   {
     version: "v1.1.0",
     date: "2026-04-06",
@@ -13,7 +22,7 @@ export const CHANGELOGS = [
       "배관 규격 대폭 확장 (대구경 36인치까지 추가, XXS 추가)",
       "고압 플랜지 규격 보강 (Class 600#, 900# 추가)",
       "플랜지 볼팅 순서 시각화 이미지(SVG 방식) 렌더링 적용",
-      "자동 패치노트 알림 기능 추가"
+      "버전 뱃지 탭 시 패치노트 다시보기 지원 및 온보딩 가이드 추가"
     ]
   },
   {
