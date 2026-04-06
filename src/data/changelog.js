@@ -2,24 +2,17 @@
  * Plant Pocket Patch Notes & Version History
  */
 
-export const CURRENT_VERSION = "v1.1.2";
+export const CURRENT_VERSION = "v1.2.0";
 
 export const CHANGELOGS = [
   {
-    version: "v1.1.2",
+    version: "v1.2.0",
     date: "2026-04-06",
-    title: "🔧 긴급 핫픽스 (Hotfix)",
+    title: "🔥 현장 데이터 내보내기 & 사진 마킹 기능 대규모 업데이트!",
     changes: [
-      "초기화 스크립트 연결 누락으로 인한 앱 터치 먹통 현상 긴급 롤백 처리"
-    ]
-  },
-  {
-    version: "v1.1.1",
-    date: "2026-04-06",
-    title: "🔧 UI 텍스트 및 PWA 최적화 (Hotfix)",
-    changes: [
-      "펀치(Punch) 안내 문구 간소화 및 카메라/앨범 다중 선택 메뉴 표시 오류 수정",
-      "비행기 모드 환경에서 앱 최초 구동 불가 버그(PWA 캐싱) 해결"
+      "[펀치] 사진 촬영 후 앱 내에서 손가락으로 문제를 빨간색 펜으로 바로 체크(마킹)할 수 있는 기능 추가",
+      "[펀치] 그동안 저장해둔 모든 현장 결함 리포트와 사진을 오프라인 HTML 파일 하나로 통합 추출(다운로드)하는 혁신적인 기능 추가",
+      "[펀치] 기기 내 사진첩/앨범에서 바로 가져와 마킹하는 로직 최적화"
     ]
   },
   {
