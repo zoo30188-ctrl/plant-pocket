@@ -2,9 +2,19 @@
  * Plant Pocket Patch Notes & Version History
  */
 
-export const CURRENT_VERSION = "v1.2.2";
+export const CURRENT_VERSION = "v1.3.0";
 
 export const CHANGELOGS = [
+  {
+    version: "v1.3.0",
+    date: "2026-04-13",
+    title: "데이터 백업/공유 및 UX 고도화",
+    changes: [
+      "[펀치] 다른 팀원과 카톡으로 데이터를 합칠 수 있는 JSON 파일 내보내기/병합 기능 추가",
+      "[펀치] 리스트의 썸네일 사진을 터치하면 전체화면으로 크게 볼 수 있는 뷰어 기능 추가",
+      "[펀치] 수정 모드 진입 시 수정을 취소하고 원래 폼으로 돌아가는 [✕ 취소] 버튼 추가"
+    ]
+  },
   {
     version: "v1.2.1",
     date: "2026-04-06",

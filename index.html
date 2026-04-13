@@ -117,12 +117,22 @@
           <div class="form-group">
             <textarea id="punchDesc" class="form-control" placeholder="상세 내용 (예: 보온재 파손, tubesheet 부식 등)" rows="3" style="width:100%; resize:none;"></textarea>
           </div>
-          <button class="btn" style="background-color: var(--primary); color: white;" id="punchSaveBtn">💾 내 폰에 저장</button>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn" style="background-color: var(--primary); color: white; flex:1;" id="punchSaveBtn">💾 내 폰에 저장</button>
+            <button class="btn btn-secondary" style="display:none; flex:0.4;" id="punchCancelBtn">✕ 취소</button>
+          </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; margin-bottom: 0.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 1.5rem; margin-bottom: 0.25rem;">
           <h3 style="margin: 0;">저장된 리스트</h3>
-          <button class="btn" id="exportHtmlBtn" style="background-color:#0f172a; color:white; padding:0.25rem 0.6rem; font-size:0.8rem; line-height:1.2; width:auto;">📄 리포트 내보내기</button>
+          <div style="display:flex; flex-direction:column; gap:0.25rem; align-items:flex-end;">
+            <button class="btn" id="exportHtmlBtn" style="background-color:#0f172a; color:white; padding:0.25rem 0.6rem; font-size:0.8rem; line-height:1.2; width:auto;">📄 리포트 내보내기</button>
+            <div style="display:flex; gap:0.25rem;">
+              <button class="btn" id="exportJsonBtn" style="background-color:#047857; color:white; padding:0.25rem 0.6rem; font-size:0.75rem; line-height:1.2; width:auto;">📦 JSON 추출</button>
+              <label for="importJsonInput" class="btn" style="background-color:#1d4ed8; color:white; padding:0.25rem 0.6rem; font-size:0.75rem; line-height:1.2; width:auto; cursor:pointer; margin:0;">📥 JSON 병합</label>
+              <input type="file" id="importJsonInput" accept=".json" style="display:none;">
+            </div>
+          </div>
         </div>
         <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 1rem; line-height: 1.3; text-align:right;">
           ※ 다운로드 위치: <strong>아이폰</strong>(파일 앱 ➔ 나의 iPhone ➔ 다운로드), <strong>갤럭시</strong>(내 파일 ➔ 다운로드)
@@ -271,6 +281,14 @@
         <div class="modal-footer">
           <button id="closeManualBtn" class="btn" style="background-color: #047857; color: white;">앱 시작하기</button>
         </div>
+      </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal" class="modal-overlay" style="background-color: rgba(0,0,0,0.9); z-index: 2000;">
+      <div style="position:relative; width:100%; height:100%; display:flex; justify-content:center; align-items:center;">
+        <button id="closeLightboxBtn" style="position:absolute; top:1rem; right:1rem; background:none; border:none; color:white; font-size:2.5rem; cursor:pointer; line-height:1; padding:0.5rem;">&times;</button>
+        <img id="lightboxImage" src="" style="max-width:100%; max-height:90vh; object-fit:contain; border-radius:4px;" />
       </div>
     </div>
     

@@ -10,6 +10,12 @@ export function initPunch() {
   const saveBtn = document.getElementById('punchSaveBtn');
   const listContainer = document.getElementById('punchListContainer');
   const exportBtn = document.getElementById('exportHtmlBtn');
+  const punchCancelBtn = document.getElementById('punchCancelBtn');
+  const exportJsonBtn = document.getElementById('exportJsonBtn');
+  const importJsonInput = document.getElementById('importJsonInput');
+  const lightboxModal = document.getElementById('lightboxModal');
+  const lightboxImage = document.getElementById('lightboxImage');
+  const closeLightboxBtn = document.getElementById('closeLightboxBtn');
 
   let ctx = null;
   if (canvas) {
@@ -137,6 +143,23 @@ export function initPunch() {
     });
   }
 
+  const resetForm = () => {
+    editingId = null;
+    eqNoInput.value = '';
+    descInput.value = '';
+    isImageLoaded = false;
+    baseImageObj = null;
+    photoInput.value = '';
+    previewContainer.style.display = 'none';
+    if(ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    saveBtn.innerText = "💾 내 폰에 저장";
+    if (punchCancelBtn) punchCancelBtn.style.display = 'none';
+  };
+
+  if (punchCancelBtn) {
+    punchCancelBtn.addEventListener('click', resetForm);
+  }
+
   // Save Punch
   saveBtn.addEventListener('click', async () => {
     const eqNo = eqNoInput.value.trim();
@@ -172,20 +195,10 @@ export function initPunch() {
         await savePunch(punch);
       }
       
-      // Reset form
-      editingId = null;
-      eqNoInput.value = '';
-      descInput.value = '';
-      isImageLoaded = false;
-      baseImageObj = null;
-      photoInput.value = '';
-      previewContainer.style.display = 'none';
-      if(ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+      resetForm();
       await loadPunchList();
     } catch(err) {
       alert("저장 실패: " + err.message);
-    } finally {
       saveBtn.innerText = "💾 내 폰에 저장";
     }
   });
@@ -249,6 +262,87 @@ export function initPunch() {
     });
   }
 
+  // JSON Export Logic
+  if (exportJsonBtn) {
+    exportJsonBtn.addEventListener('click', async () => {
+      exportJsonBtn.innerText = "추출 중...";
+      try {
+        const punches = await getPunches();
+        if (punches.length === 0) {
+          alert("내보낼 데이터가 없습니다.");
+          return;
+        }
+        const jsonStr = JSON.stringify(punches, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const filenameDate = new Date().toISOString().slice(0,10);
+        a.download = `Plant_Pocket_Data_${filenameDate}.json`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 100);
+      } catch (err) {
+        alert("추출 실패: " + err.message);
+      } finally {
+        exportJsonBtn.innerText = "📦 JSON 추출";
+      }
+    });
+  }
+
+  // JSON Import Logic
+  if (importJsonInput) {
+    importJsonInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        try {
+          const data = JSON.parse(event.target.result);
+          if (!Array.isArray(data)) throw new Error("유효하지 않은 데이터 형식입니다.");
+          
+          let count = 0;
+          for (const item of data) {
+            // Strip ID to avoid conflicts, always append as new
+            delete item.id;
+            await savePunch(item);
+            count++;
+          }
+          alert(`총 ${count}건의 펀치 데이터가 성공적으로 병합되었습니다.`);
+          await loadPunchList();
+        } catch (err) {
+          alert("불러오기 실패: " + err.message);
+        } finally {
+          importJsonInput.value = ''; // Reset input
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  // Lightbox Modal logic
+  const openLightbox = (src) => {
+    if (lightboxModal && lightboxImage) {
+      lightboxImage.src = src;
+      lightboxModal.classList.add('show');
+    }
+  };
+  const closeLightbox = () => {
+    if (lightboxModal) {
+      lightboxModal.classList.remove('show');
+    }
+  };
+  if (closeLightboxBtn) closeLightboxBtn.addEventListener('click', closeLightbox);
+  if (lightboxModal) {
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) closeLightbox();
+    });
+  }
+
   // Load and display list
   async function loadPunchList() {
     try {
@@ -268,7 +362,7 @@ export function initPunch() {
             <span style="font-size:0.8rem; color:var(--text-muted);">${new Date(p.date).toLocaleString()}</span>
           </div>
           <p style="margin-bottom: ${p.image ? '1rem' : '0'}; white-space:pre-wrap;">${escapeHTML(p.desc)}</p>
-          ${p.image ? `<img src="${p.image}" style="max-width:100%; border-radius:4px; margin-bottom:1rem;" />` : ''}
+          ${p.image ? `<img src="${p.image}" class="view-image" data-src="${p.image}" style="max-width:100%; border-radius:4px; margin-bottom:1rem; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.1);" />` : ''}
           <div style="display:flex; gap:0.5rem;">
             <button class="btn btn-secondary btn-copy-punch" data-text="[${escapeHTML(p.eqNo)}] ${escapeHTML(p.desc)}">📋 복사</button>
             <button class="btn btn-secondary btn-edit-punch" data-id="${p.id}" style="color:#0284c7; flex:0.6;">✏️ 수정</button>
@@ -278,6 +372,12 @@ export function initPunch() {
       `).join('');
 
       // Add events
+      document.querySelectorAll('.view-image').forEach(img => {
+        img.addEventListener('click', (e) => {
+          openLightbox(e.target.dataset.src);
+        });
+      });
+
       document.querySelectorAll('.btn-edit-punch').forEach(btn => {
         btn.addEventListener('click', async (e) => {
           const id = Number(e.target.dataset.id);
@@ -289,6 +389,7 @@ export function initPunch() {
           eqNoInput.value = p.eqNo;
           descInput.value = p.desc;
           saveBtn.innerText = "💾 수정 내용 덮어쓰기";
+          if (punchCancelBtn) punchCancelBtn.style.display = 'block';
           
           document.getElementById('tab-punch').scrollIntoView({ behavior: 'smooth' });
 
